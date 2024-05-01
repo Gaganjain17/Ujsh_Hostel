@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>UJSH Hostel</title>
+
+	<link rel="icon" href="img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+	<link rel="stylesheet" href="vendors/linericon/style.css">
+  <link rel="stylesheet" href="vendors/magnefic-popup/magnific-popux` p.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  	<!-- ================ header section start ================= -->	
+    <!-- header -->
+    <div id="head_content"></div>
+	<!-- ================ header section end ================= -->	
+  
+  <div class="section-intro text-center bg-porcelain">
+  <h2 style="text-align: center;">Notices</h2>
+  </div>
+  
+ <div id="events"></div>
+
+ <div id="events"></div>
+
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('events');
+      const loadingMessage = document.createElement('div');
+      loadingMessage.textContent = 'Loading...';
+      container.appendChild(loadingMessage);
+
+      fetch('https://script.google.com/macros/s/AKfycbwe6jZCm1T1-Y87H7oYTnYhOG1lW16qhr2oZeYmA3QrnwLOCc5s15vwCxlVR2pPXSdcjQ/exec')
+          .then(response => response.json())
+          .then(data => {
+              container.removeChild(loadingMessage); // Remove the loading message
+              if (data.length === 0) {
+                  const noDataMessage = document.createElement('div');
+                  noDataMessage.className = 'card-notice';
+                  noDataMessage.innerHTML = `
+                       <div class="card-notice__header align-center">
+                           <h3>No notices to Display Now</h3>
+                       </div>
+                   `;
+                   container.appendChild(noDataMessage);
+              } else {
+                  data.forEach(event => {
+                      // Remove "T" from date and time strings
+                      const date = event.Date.replace('T', ' ');
+                      const postingDate = event.Posting.replace('T', ' ');
+
+                      // Remove ".000Z" from date and time strings
+                      const formattedDate = date.replace('.000Z', '');
+                      const formattedPostingDate = postingDate.replace('.000Z', '');
+
+                      const div = document.createElement('div');
+                      div.className = 'card-notice';
+                      div.innerHTML = `
+                        <div class="card-notice__header">
+                          <h3><span class="event">${event.Event}</span></h3>
+                          <span class="date">${formattedPostingDate}</span>
+                        </div>
+                        <div class="card-body">
+                          <p class="card-notice__content">${event.Content}</p>
+                        </div>
+                      `;
+                      container.appendChild(div);
+                  });
+              }
+          })
+          .catch(error => {
+              console.error('Error fetching data:', error);
+              loadingMessage.textContent = 'Failed to load data.';
+          });
+    });
+</script>
+
+  </div>
+
+  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="vendors/magnefic-popup/jquery.magnific-popup.min.js"></script>
+  <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+	<script src="vendors/easing.min.js"></script>
+  <script src="vendors/superfish.min.js"></script>
+  <script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+  <script src="vendors/jquery.ajaxchimp.min.js"></script>
+  <script src="vendors/mail-script.js"></script>
+  <script src="js/main.js"></script>
+  <!-- footer -->
+  <div id="foot_content"></div>
+</body>
+<!-- header and footer -->
+
+<script type="text/javascript"> 
+  $('#head_content').load('header.html');
+  $('#foot_content').load('footer.html');
+</script>
+
+</html>
