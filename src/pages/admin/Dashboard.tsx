@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { FileText, Image, Users, Mail } from "lucide-react";
+import { FileText, Image, Users, Mail, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function AdminDashboard() {
-  const [counts, setCounts] = useState({ notices: 0, gallery: 0, members: 0, unreadMessages: 0 });
+  const [counts, setCounts] = useState({ notices: 0, gallery: 0, members: 0, unreadMessages: 0, pendingAdmissions: 0 });
 
   useEffect(() => {
     const fetchCounts = async () => {
-      const [n, g, m, c] = await Promise.all([
+      const [n, g, m, c, a] = await Promise.all([
         supabase.from("notices").select("id", { count: "exact", head: true }),
         supabase.from("gallery").select("id", { count: "exact", head: true }),
         supabase.from("members").select("id", { count: "exact", head: true }),
         supabase.from("contact_submissions").select("id", { count: "exact", head: true }).eq("is_read", false),
+        supabase.from("admission_submissions").select("id", { count: "exact", head: true }).eq("status", "pending"),
       ]);
       setCounts({
         notices: n.count || 0,
         gallery: g.count || 0,
         members: m.count || 0,
         unreadMessages: c.count || 0,
+        pendingAdmissions: a.count || 0,
       });
     };
     fetchCounts();
@@ -29,13 +31,14 @@ export default function AdminDashboard() {
     { title: "Notices", count: counts.notices, icon: FileText, to: "/admin/notices", color: "text-primary" },
     { title: "Gallery", count: counts.gallery, icon: Image, to: "/admin/gallery", color: "text-secondary" },
     { title: "Members", count: counts.members, icon: Users, to: "/admin/members", color: "text-accent-foreground" },
+    { title: "Pending Admissions", count: counts.pendingAdmissions, icon: ClipboardList, to: "/admin/admissions", color: "text-emerald-600" },
     { title: "Unread Messages", count: counts.unreadMessages, icon: Mail, to: "/admin/contacts", color: "text-destructive" },
   ];
 
   return (
     <div>
       <h1 className="text-2xl font-display font-bold text-foreground mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {cards.map((card) => (
           <Link key={card.title} to={card.to}>
             <Card className="hover:shadow-md transition-shadow">

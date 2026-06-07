@@ -1,13 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, Image, Users, Mail, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Image, Users, Mail, LogOut, ClipboardList } from "lucide-react";
 
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/admin/notices", icon: FileText, label: "Notices" },
   { to: "/admin/gallery", icon: Image, label: "Gallery" },
   { to: "/admin/members", icon: Users, label: "Members" },
+  { to: "/admin/admissions", icon: ClipboardList, label: "Admissions" },
   { to: "/admin/contacts", icon: Mail, label: "Messages" },
 ];
 

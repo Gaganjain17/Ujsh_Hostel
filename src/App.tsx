@@ -29,6 +29,7 @@ import Notices from "@/pages/Notices";
 import Gallery from "@/pages/Gallery";
 import AdmissionProcedure from "@/pages/AdmissionProcedure";
 import Apply from "@/pages/Apply";
+import ApplyForm from "@/pages/ApplyForm";
 import StudentLife from "@/pages/StudentLife";
 import FAQ from "@/pages/FAQ";
 import Contact from "@/pages/Contact";
@@ -41,6 +42,7 @@ import ManageNotices from "@/pages/admin/ManageNotices";
 import ManageGallery from "@/pages/admin/ManageGallery";
 import ManageMembers from "@/pages/admin/ManageMembers";
 import ContactSubmissions from "@/pages/admin/ContactSubmissions";
+import AdmissionSubmissions from "@/pages/admin/AdmissionSubmissions";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +75,7 @@ const App = () => (
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/admission_procedure" element={<AdmissionProcedure />} />
               <Route path="/apply" element={<Apply />} />
+              <Route path="/apply/form" element={<ApplyForm />} />
               <Route path="/student_life" element={<StudentLife />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
@@ -86,6 +89,7 @@ const App = () => (
               <Route path="notices" element={<ManageNotices />} />
               <Route path="gallery" element={<ManageGallery />} />
               <Route path="members" element={<ManageMembers />} />
+              <Route path="admissions" element={<AdmissionSubmissions />} />
               <Route path="contacts" element={<ContactSubmissions />} />
             </Route>
 

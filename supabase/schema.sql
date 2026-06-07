@@ -227,3 +227,94 @@ CREATE POLICY "Admins can delete gallery images"
 --
 -- INSERT INTO public.user_roles (user_id, role)
 -- SELECT id, 'admin' FROM auth.users WHERE email = 'ujshsion1@gmail.com';
+
+
+-- 7. ADMISSION SUBMISSIONS
+-- ============================================================
+
+CREATE TABLE public.admission_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  
+  -- Application Info
+  application_no TEXT,
+  student_type TEXT NOT NULL CHECK (student_type IN ('new', 'old')), -- 'new' or 'old'
+  study_course TEXT NOT NULL,
+  is_trust_seat BOOLEAN DEFAULT false,
+  trust_name TEXT,
+  
+  -- Student Personal Details
+  full_name TEXT NOT NULL,
+  date_of_birth DATE NOT NULL,
+  is_jain BOOLEAN DEFAULT true,
+  gnyati_gotra TEXT,
+  native_place TEXT NOT NULL,
+  birth_place TEXT NOT NULL,
+  is_married BOOLEAN DEFAULT false,
+  
+  -- Student Contact Details
+  student_address TEXT NOT NULL,
+  student_mobile TEXT NOT NULL,
+  student_email TEXT NOT NULL,
+  native_address TEXT NOT NULL,
+  
+  -- Parent Details
+  father_name TEXT NOT NULL,
+  father_address TEXT NOT NULL,
+  father_phone TEXT NOT NULL,
+  father_occupation TEXT,
+  father_job_address TEXT,
+  
+  -- Local Guardian Details
+  local_guardian_name TEXT,
+  local_guardian_address TEXT,
+  local_guardian_phone TEXT,
+  
+  -- History & Financials
+  financial_aid_details TEXT,
+  applied_before BOOLEAN DEFAULT false,
+  applied_before_details TEXT,
+  stayed_before BOOLEAN DEFAULT false,
+  stayed_before_details TEXT,
+  was_trust_seat BOOLEAN DEFAULT false,
+  
+  -- Academic Details
+  last_exam_details TEXT NOT NULL,
+  current_college_details TEXT NOT NULL,
+  academic_results JSONB DEFAULT '[]'::jsonb, -- Array of previous exams passing details
+  
+  -- Uploaded Documents (Storage URLs or Mock paths)
+  student_photo_url TEXT,
+  jain_certificate_url TEXT,
+  guardian_id_url TEXT,
+  marksheets_url TEXT,
+  fee_receipt_url TEXT,
+  ca_documents_url TEXT,
+  
+  -- Metadata
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.admission_submissions ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+CREATE POLICY "Anyone can submit admission forms"
+  ON public.admission_submissions FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (true);
+
+CREATE POLICY "Admins can view admission forms"
+  ON public.admission_submissions FOR SELECT
+  TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'));
+
+CREATE POLICY "Admins can update admission forms"
+  ON public.admission_submissions FOR UPDATE
+  TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'));
+
+CREATE POLICY "Admins can delete admission forms"
+  ON public.admission_submissions FOR DELETE
+  TO authenticated
+  USING (public.has_role(auth.uid(), 'admin'));
+

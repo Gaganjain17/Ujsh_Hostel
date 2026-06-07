@@ -52,7 +52,7 @@ export default function Home() {
             <Button asChild size="lg" className="font-semibold">
               <Link to="/about">Learn More</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+            <Button asChild variant="outline" size="lg" className="border-white/30 text-white bg-transparent hover:bg-white/10">
               <Link to="/admission_procedure">Admissions</Link>
             </Button>
           </div>
@@ -109,7 +109,7 @@ export default function Home() {
             <Button asChild variant="secondary" size="lg">
               <Link to="/apply">Apply Now</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+            <Button asChild variant="outline" size="lg" className="border-white/30 text-white bg-transparent hover:bg-white/10">
               <Link to="/contact">Contact Us</Link>
             </Button>
           </div>

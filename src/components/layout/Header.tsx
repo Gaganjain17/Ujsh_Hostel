@@ -22,11 +22,16 @@ const facilitiesLinks = [
   { to: "/facilities/rooms", label: "Rooms" },
 ];
 
+const admissionsLinks = [
+  { to: "/admission_procedure", label: "Admission Details" },
+  { to: "/apply", label: "Apply" },
+];
+
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { label: "Management Team", children: managementLinks },
-  { to: "/admission_procedure", label: "Admissions" },
+  { label: "Admissions", children: admissionsLinks, parentTo: "/admission_procedure" },
   { label: "Facilities", children: facilitiesLinks, parentTo: "/facilities" },
   { to: "/notices", label: "Notices" },
   { to: "/gallery", label: "Gallery" },

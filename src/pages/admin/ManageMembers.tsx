@@ -46,6 +46,7 @@ export default function ManageMembers() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchMembers(); }, [filter]);
 
   const handleSave = async () => {
@@ -108,7 +109,7 @@ export default function ManageMembers() {
               ))}
             </SelectContent>
           </Select>
-          <Button onClick={() => { showForm ? resetForm() : setShowForm(true); }} size="sm" className="gap-2">
+          <Button onClick={() => { if (showForm) { resetForm(); } else { setShowForm(true); } }} size="sm" className="gap-2">
             {showForm ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
             {showForm ? "Cancel" : "Add Member"}
           </Button>
